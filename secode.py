@@ -9,6 +9,7 @@ import requests
 import re
 import io
 import textwrap
+nltk.download('punkt')
 
 
 
