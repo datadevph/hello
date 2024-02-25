@@ -134,7 +134,7 @@ if selected == "Analysis":
             axes[0, 0].set_xlabel('Header Tags')
             axes[0, 0].set_ylabel('Count')
             axes[0, 0].set_xticklabels(labels, rotation=45)
-            axes[0, 0].set_title('Header Tags Analysis')
+            # axes[0, 0].set_title('Header Tags Analysis')
             axes[0, 0].margins(0.2)  # Add more margin to the graph
 
         # Technology pie chart
@@ -143,7 +143,7 @@ if selected == "Analysis":
         explode = (0.1, 0.1, 0.1)  # explode 1st slice
         axes[0, 1].pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True, startangle=140)
         axes[0, 1].axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-        axes[0, 1].set_title('Technology Analysis')
+        # axes[0, 1].set_title('Technology Analysis')
         axes[0, 1].margins(0.2)  # Add more margin to the graph
 
         # Top bi-grams bar graph
@@ -157,7 +157,7 @@ if selected == "Analysis":
 
         # Top links table
         axes[1, 1].axis('off')  # Hide axes for the table
-        table_data = [["Top Links:"]] + [[link] for link in top_links]
+        table_data = [["Top Links:"]] + [[re.sub(r'\.com.*$', '.com', link) if re.search(r'\.com.*$', link) else link] for link in top_links]
         table = axes[1, 1].table(cellText=table_data, loc='center', cellLoc='center', colWidths=[0.5]*5)
         table.auto_set_font_size(False)
         table.set_fontsize(8)
