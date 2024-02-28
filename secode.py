@@ -10,11 +10,6 @@ import re
 import io
 nltk.download('punkt')
 
-
-
-
-
-
 st.set_page_config(
     page_title="SECODE",
     layout="wide",
