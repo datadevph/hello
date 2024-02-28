@@ -8,8 +8,9 @@ from collections import Counter
 import requests
 import re
 import io
-import textwrap
 nltk.download('punkt')
+
+
 
 
 
@@ -17,6 +18,7 @@ nltk.download('punkt')
 st.set_page_config(
     # page_title="SECODE",
     layout="wide",
+    page_icon="🧊",
 )
 
 
@@ -66,8 +68,8 @@ else:
 # Menu
 selected = option_menu(
     menu_title=None,
-    options=["Technology", "Analysis", "Learn", "Practice", "Resources"],
-    icons=["code-slash", "bar-chart", "lightbulb", "braces", "search"],
+    options=["Technology", "Analysis", "Learn", "Practice", "Resources", "About SECODE"],
+    icons=["code-slash", "bar-chart", "lightbulb", "braces", "search", "terminal"],
     menu_icon="cast",
     default_index=0,
     orientation="horizontal",
@@ -76,16 +78,29 @@ selected = option_menu(
 # Display selected tab content
 if selected == "Technology":
     if html_code is not None:
-        with st.expander("HTML Structure"):
-            st.code(html_code, language='html')
-        with st.expander("CSS Styles"):
-            st.code(css_code, language='css')
-        with st.expander("Javascript Code"):
-            st.code(js_code, language='javascript')
+        # List technologies from available code
+        technologies = ["HTML", "CSS", "Javascript"]
+        # Identify available technologies from code
+        available_technologies = [tech for tech in technologies if tech.lower() in (html_code or "").lower()]
+
+        # Display tabs only for available technologies
+        if available_technologies:
+            tab_labels = [tech for tech in available_technologies]
+            selected_tab = st.tabs(tab_labels)
+            for tech in available_technologies:
+                if tech == "HTML" and "HTML" in available_technologies:
+                    with selected_tab[tab_labels.index("HTML")]:
+                        st.code(html_code, language='html')
+                elif tech == "CSS" and "CSS" in available_technologies:
+                    with selected_tab[tab_labels.index("CSS")]:
+                        st.code(css_code, language='css')
+                elif tech == "Javascript" and "Javascript" in available_technologies:
+                    with selected_tab[tab_labels.index("Javascript")]:
+                        st.code(js_code, language='javascript')
+        else:
+            st.warning("This website doesn't contain any of the analyzed technologies.")
     else:
         st.warning("Click Analyze button to fetch content.")
-
-
 
 
 if selected == "Analysis":
@@ -116,67 +131,67 @@ if selected == "Analysis":
         bi_grams = list(nltk.bigrams(tokens))
         bi_gram_counts = Counter(bi_grams)
 
-        # Extract links with 'https://'
-        links_with_https = [link['href'] for link in soup.find_all('a', href=True) if link['href'].startswith('https://')]
-
         # Limit bi-grams and links to 10
         top_bi_grams = bi_gram_counts.most_common(10)
-        top_links = links_with_https[:7]
+        # top_links = links_with_https[:5]
 
         # Create a single image containing all the analysis results
         fig, axes = plt.subplots(2, 2, figsize=(12, 8))  # Adjust the figure size here
+
+        # Title and About Us section
+        axes[0, 0].text(0.5, 0.5, f"SEO Analysis on {url_input}\n\nAbout {domain_name.capitalize()}:\n\n{about_us_content}", fontsize=12, ha='center', va='center', wrap=True)
+        axes[0, 0].axis('off')  # Hide the axes
+
+        # # Title and About Us section
+        # title_text = f"SEO Analysis on {url_input}\n\n"
+        # about_text = f"About {domain_name.capitalize()}:\n\n{about_us_content}"
+
+        # axes[0, 0].text(0.5, 0.7, title_text, fontsize=16, fontweight='bold', color='blue', ha='center', va='center')
+        # axes[0, 0].text(0.5, 0.3, about_text, fontsize=12, color='green', ha='center', va='center')
+        # axes[0, 0].axis('off')  # Hide the axes
 
         # Header tags bar graph
         if header_counts:
             labels = list(header_counts.keys())
             counts = list(header_counts.values())
-            axes[0, 0].bar(labels, counts, color='skyblue')
-            axes[0, 0].set_xlabel('Header Tags')
-            axes[0, 0].set_ylabel('Count')
-            axes[0, 0].set_xticklabels(labels, rotation=45)
-            # axes[0, 0].set_title('Header Tags Analysis')
-            axes[0, 0].margins(0.2)  # Add more margin to the graph
+            axes[0, 1].bar(labels, counts, color='skyblue')
+            axes[0, 1].set_xlabel('Header Tags')
+            axes[0, 1].set_ylabel('Count')
+            axes[0, 1].set_xticklabels(labels, rotation=45)
+            axes[0, 1].set_title('Header Tags Analysis')
 
+        
         # Technology pie chart
-        labels = ['HTML', 'CSS', 'JavaScript']
-        sizes = [html_percent, css_percent, js_percent]
-        explode = (0.1, 0.1, 0.1)  # explode 1st slice
-        axes[0, 1].pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True, startangle=140)
-        axes[0, 1].axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-        # axes[0, 1].set_title('Technology Analysis')
-        axes[0, 1].margins(0.2)  # Add more margin to the graph
+        labels = []
+        sizes = []
+
+        # Only include non-zero percentages in the pie chart
+        if html_percent != 0:
+            labels.append('HTML')
+            sizes.append(html_percent)
+        if css_percent != 0:
+            labels.append('CSS')
+            sizes.append(css_percent)
+        if js_percent != 0:
+            labels.append('JavaScript')
+            sizes.append(js_percent)
+
+        explode = [0.1] * len(labels)  # Explode for all non-zero wedges
+        axes[1, 0].pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True, startangle=140)
+        axes[1, 0].axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+        axes[1, 0].set_title('Technology Analysis')
+
+
 
         # Top bi-grams bar graph
         bi_gram_labels = [str(gram) for gram, count in top_bi_grams]
         bi_gram_counts = [count for gram, count in top_bi_grams]
-        axes[1, 0].barh(bi_gram_labels[::-1], bi_gram_counts[::-1], color='lightgreen')  # Reversed to display most common bi-grams at the top
-        axes[1, 0].set_xlabel('Count')
-        axes[1, 0].set_ylabel('Bi-gram')
-        axes[1, 0].set_title('Top Bi-grams')
-        axes[1, 0].margins(0.2)  # Add more margin to the graph
+        axes[1, 1].barh(bi_gram_labels[::-1], bi_gram_counts[::-1], color='lightgreen')  # Reversed to display most common bi-grams at the top
+        axes[1, 1].set_xlabel('Count')
+        axes[1, 1].set_ylabel('Bi-gram')
+        axes[1, 1].set_title('Top Bi-grams')
 
-        # Top links table
-        axes[1, 1].axis('off')  # Hide axes for the table
-        table_data = [["Top Links:"]] + [[re.sub(r'\.com.*$', '.com', link) if re.search(r'\.com.*$', link) else link] for link in top_links]
-        table = axes[1, 1].table(cellText=table_data, loc='center', cellLoc='center', colWidths=[0.5]*5)
-        table.auto_set_font_size(False)
-        table.set_fontsize(8)
-        table.scale(2, 2.1)
-
-        # Extract meta description
-        meta_description = soup.find('meta', attrs={'name': 'description'})
-        about_us_content = meta_description['content'] if meta_description else None
-
-        # Limit meta description to one sentence
-        if about_us_content:
-            sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', about_us_content)
-            about_us_content = sentences[0]
-
-        # Add title and paragraph
-        plt.figtext(0.02, 0.98, f"SEO Analysis on {url_input}", fontsize=14, fontweight='bold', color='black', ha ='left', va='top', backgroundcolor='white', alpha=0.5)
-        plt.figtext(0.02, 0.95, f"About {domain_name.capitalize()}:\n{about_us_content if about_us_content else 'No meta description available.'}", fontsize=10, color='black', ha ='left', va='top', backgroundcolor='white', alpha=0.5)
-
-        plt.tight_layout(rect=[0, 0.03, 1, 0.95])  # Adjust the top padding
+        plt.tight_layout()
 
         # Save the composite image
         img_data = io.BytesIO()
@@ -184,18 +199,13 @@ if selected == "Analysis":
         img_data.seek(0)
 
         # Display the image
-        st.image(img_data, use_column_width=True, )
+        st.image(img_data, use_column_width=True)
 
         # Add download button to download the image
         st.download_button(label="Download Image", data=img_data, file_name='analysis_results.png', mime='image/png')
 
     else:
         st.warning("Click Analyze button for analysis.")
-
-
-
-
-
 
 
 elif selected == "Learn":
@@ -1219,3 +1229,15 @@ elif selected == "Resources":
         - **Overview:** SuperSimpleDev, hosted by Simon Bao, provides beginner-friendly tutorials on web development, programming languages, and related topics. The channel focuses on simplicity and clarity, making it ideal for those new to coding.
         - **Channel Link:** [SuperSimpleDev](https://www.youtube.com/@SuperSimpleDev)
         """)
+
+
+elif selected == "About SECODE":
+     st.markdown("""
+         SECODE is a comprehensive SEO analyzer system designed to analyze the programming languages utilized in website development, along with other technologies such as HTML and CSS. Our system offers detailed insights into the underlying technologies powering websites, aiding users in understanding the technical aspects of web development.
+
+        SECODE also contains content to assist users in their web development learning journey. With SECODE, users gain access to resources and information that support their exploration and mastery of web development technologies.
+
+        At SECODE, we are committed to providing valuable insights and resources to enhance your understanding of web development technologies and empower you in your journey towards building exceptional websites.""")
+     
+     with st.expander("The Team"):
+        st.image('team.jpg', caption='The researchers')
