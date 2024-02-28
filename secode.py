@@ -16,7 +16,7 @@ nltk.download('punkt')
 
 
 st.set_page_config(
-    # page_title="SECODE",
+    page_title="SECODE",
     layout="wide",
     page_icon="🧊",
 )
