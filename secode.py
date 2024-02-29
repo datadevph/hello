@@ -10,6 +10,7 @@ import re
 import io
 nltk.download('punkt')
 
+
 st.set_page_config(
     page_title="SECODE",
     layout="wide",
@@ -63,8 +64,8 @@ else:
 # Menu
 selected = option_menu(
     menu_title=None,
-    options=["Technology", "Analysis", "Learn", "Practice", "Resources", "About SECODE"],
-    icons=["code-slash", "bar-chart", "lightbulb", "braces", "search", "terminal"],
+    options=["Technology", "Analysis", "Learn", "Practice", "About SECODE"],
+    icons=["code-slash", "bar-chart", "lightbulb", "braces", "terminal"],
     menu_icon="cast",
     default_index=0,
     orientation="horizontal",
@@ -78,24 +79,33 @@ if selected == "Technology":
         # Identify available technologies from code
         available_technologies = [tech for tech in technologies if tech.lower() in (html_code or "").lower()]
 
-        # Display tabs only for available technologies
+        # Display tabs only for available technologies with non-empty content
         if available_technologies:
-            tab_labels = [tech for tech in available_technologies]
-            selected_tab = st.tabs(tab_labels)
-            for tech in available_technologies:
-                if tech == "HTML" and "HTML" in available_technologies:
-                    with selected_tab[tab_labels.index("HTML")]:
-                        st.code(html_code, language='html')
-                elif tech == "CSS" and "CSS" in available_technologies:
-                    with selected_tab[tab_labels.index("CSS")]:
-                        st.code(css_code, language='css')
-                elif tech == "Javascript" and "Javascript" in available_technologies:
-                    with selected_tab[tab_labels.index("Javascript")]:
-                        st.code(js_code, language='javascript')
+            tab_labels = []
+            tab_contents = []
+            if "HTML" in available_technologies and html_code:
+                tab_labels.append("HTML")
+                tab_contents.append(html_code)
+            if "CSS" in available_technologies and css_code:
+                tab_labels.append("CSS")
+                tab_contents.append(css_code)
+            if "Javascript" in available_technologies and js_code:
+                tab_labels.append("Javascript")
+                tab_contents.append(js_code)
+            
+            if tab_labels:  # Check if there are any tabs to display
+                selected_tab = st.tabs(tab_labels)
+                for label, content in zip(tab_labels, tab_contents):
+                    with selected_tab[tab_labels.index(label)]:
+                        st.code(content, language=label.lower())
+            else:
+                st.warning("This website doesn't contain any of the analyzed technologies.")
         else:
             st.warning("This website doesn't contain any of the analyzed technologies.")
     else:
-        st.warning("Click Analyze button to fetch content.")
+        st.warning("Your in Technology menu, Provide domain first and then click Analyze button to fetch the content.")
+
+
 
 
 if selected == "Analysis":
@@ -153,7 +163,7 @@ if selected == "Analysis":
             axes[0, 1].set_xlabel('Header Tags')
             axes[0, 1].set_ylabel('Count')
             axes[0, 1].set_xticklabels(labels, rotation=45)
-            axes[0, 1].set_title('Header Tags Analysis')
+            axes[0, 1].set_title('HTML Header Tags Analysis')
 
         
         # Technology pie chart
@@ -178,13 +188,13 @@ if selected == "Analysis":
 
 
 
-        # Top bi-grams bar graph
+        # Top keywords bar graph
         bi_gram_labels = [str(gram) for gram, count in top_bi_grams]
         bi_gram_counts = [count for gram, count in top_bi_grams]
         axes[1, 1].barh(bi_gram_labels[::-1], bi_gram_counts[::-1], color='lightgreen')  # Reversed to display most common bi-grams at the top
         axes[1, 1].set_xlabel('Count')
         axes[1, 1].set_ylabel('Bi-gram')
-        axes[1, 1].set_title('Top Bi-grams')
+        axes[1, 1].set_title('Top Keywords')
 
         plt.tight_layout()
 
@@ -200,7 +210,7 @@ if selected == "Analysis":
         st.download_button(label="Download Image", data=img_data, file_name='analysis_results.png', mime='image/png')
 
     else:
-        st.warning("Click Analyze button for analysis.")
+        st.warning("Your in Analysis menu, Provide domain first and then click Analyze button for analysis.")
 
 
 elif selected == "Learn":
@@ -1176,23 +1186,19 @@ elif selected == "Learn":
             //your answer
             ```
         """)
-
-
-      
-         
+     
 elif selected == "Practice":
      st.markdown("""
         ## Welcome to the Practice Menu! 💻""")
      with st.expander("HTML & CSS Compiler"):
-         st.markdown("<iframe src='https://www.programiz.com/html/online-compiler/' width='100%' height='600px'></iframe>", unsafe_allow_html=True)
+         st.markdown("<iframe src='https://www.programiz.com/html/online-compiler/' width='100%' height='500px'></iframe>", unsafe_allow_html=True)
      
      with st.expander("Javascript Compiler"):
-         st.markdown("<iframe src='https://www.programiz.com/javascript/online-compiler/' width='100%' height='600px'></iframe>", unsafe_allow_html=True)
+         st.markdown("<iframe src='https://www.programiz.com/javascript/online-compiler/' width='100%' height='500px'></iframe>", unsafe_allow_html=True)
 
-elif selected == "Resources":
-    st.markdown("""
-        ## Welcome to the Resources Menu! 📚""")
-    with st.expander("Website"):
+     st.markdown("""
+        ## Resources 📚""")
+     with st.expander("Website"):
           st.markdown("""
         Here are three free websites that offer resources for learning web development:
 
@@ -1208,7 +1214,7 @@ elif selected == "Resources":
        - **Overview:** freeCodeCamp is a non-profit organization that offers a vast array of free coding resources, including web development tutorials, coding challenges, and projects. Its curriculum covers HTML, CSS, JavaScript, and other programming languages, and it also provides opportunities to collaborate on real-world projects.
        - **Website:** [freeCodeCamp](https://www.freecodecamp.org/)
         """)
-    with st.expander("YouTube"):
+     with st.expander("YouTube"):
         st.markdown("""
         Here are three YouTube channels that provide valuable resources for learning web development:
 
@@ -1225,7 +1231,6 @@ elif selected == "Resources":
         - **Channel Link:** [SuperSimpleDev](https://www.youtube.com/@SuperSimpleDev)
         """)
 
-
 elif selected == "About SECODE":
      st.markdown("""
          SECODE is a comprehensive SEO analyzer system designed to analyze the programming languages utilized in website development, along with other technologies such as HTML and CSS. Our system offers detailed insights into the underlying technologies powering websites, aiding users in understanding the technical aspects of web development.
@@ -1236,3 +1241,9 @@ elif selected == "About SECODE":
      
      with st.expander("The Team"):
         st.image('team.jpg', caption='The researchers')
+     
+
+     with st.expander("Acknowledgement"):
+      st.markdown("""
+        We would like to extend our gratitude to the team at Programiz for providing their exceptional online compiler as part of our SEO analyzer system's Practice menu. Their comprehensive platform offers valuable tools and resources for coding practice, enabling users to enhance their programming skills conveniently. We appreciate Programiz's contribution to our system, which enriches the learning experience for our users and empowers them in their journey of mastering programming concepts.
+         """)
