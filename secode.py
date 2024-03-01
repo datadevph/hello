@@ -103,7 +103,7 @@ if selected == "Technology":
         else:
             st.warning("This website doesn't contain any of the analyzed technologies.")
     else:
-        st.warning("Your in Technology menu, Provide domain first and then click Analyze button to fetch the content.")
+        st.warning("You are in Technology menu, Provide domain first and then click Analyze button to fetch the content.")
 
 
 
@@ -210,7 +210,7 @@ if selected == "Analysis":
         st.download_button(label="Download Image", data=img_data, file_name='analysis_results.png', mime='image/png')
 
     else:
-        st.warning("Your in Analysis menu, Provide domain first and then click Analyze button for analysis.")
+        st.warning("You are in Analysis menu, Provide domain first and then click Analyze button for analysis.")
 
 
 elif selected == "Learn":
@@ -1213,6 +1213,34 @@ elif selected == "Practice":
         3. **freeCodeCamp**
        - **Overview:** freeCodeCamp is a non-profit organization that offers a vast array of free coding resources, including web development tutorials, coding challenges, and projects. Its curriculum covers HTML, CSS, JavaScript, and other programming languages, and it also provides opportunities to collaborate on real-world projects.
        - **Website:** [freeCodeCamp](https://www.freecodecamp.org/)
+        4. **Codecademy**
+        - **Overview:** Codecademy offers interactive courses on web development topics like HTML, CSS, JavaScript, and frameworks such as React and Angular. It provides hands-on learning experiences through coding exercises and projects.
+        - **Website:** [Codecademy](https://www.codecademy.com/)
+
+        5. **Coursera**
+        - **Overview:** Coursera partners with universities and colleges worldwide to offer online courses, including those on web development. Learners can access video lectures, quizzes, and assignments for free, with the option to receive a certificate upon completion.
+        - **Website:** [Coursera](https://www.coursera.org/)
+            
+        6. **Udacity**
+        - **Overview:** Udacity offers free courses on web development, including introductory courses and more advanced topics like full-stack development. Its courses feature video lectures, quizzes, and hands-on projects.
+        - **Website:** [Coursera](https://www.udacity.com/)
+            
+        7. **Code.org**
+        - **Overview:** Code.org provides coding tutorials and resources for beginners, including web development content. Its interactive tutorials use block-based coding to introduce programming concepts in a fun and engaging way.
+        - **Website:** [Coursera](https://code.org/)
+            
+        8. **Khan Academy**
+        - **Overview:** Khan Academy offers free courses on various subjects, including introductory courses on HTML, CSS, and JavaScript. Its interactive exercises and instructional videos make learning web development accessible to learners of all ages.
+        - **Website:** [Coursera](https://www.khanacademy.org/)
+            
+        9. **GitHub**
+        - **Overview:** GitHub hosts a vast collection of open-source projects related to web development. Developers can explore code repositories, contribute to projects, and collaborate with others in the developer community to enhance their skills.
+        - **Website:** [Coursera](https://github.com/)
+                      
+        10. **Geeks for Geeks**
+        - **Overview:** Geeks for Geeks is a platform that provides tutorials, articles, and coding challenges related to various programming languages, algorithms, data structures, and computer science topics. It serves as a valuable resource for both beginners and experienced developers seeking to improve their coding skills and knowledge.
+        - **Website:** [Geeks for Geeks](https://www.geeksforgeeks.org/)
+
         """)
      with st.expander("YouTube"):
         st.markdown("""
@@ -1238,12 +1266,13 @@ elif selected == "About SECODE":
         SECODE also contains content to assist users in their web development learning journey. With SECODE, users gain access to resources and information that support their exploration and mastery of web development technologies.
 
         At SECODE, we are committed to providing valuable insights and resources to enhance your understanding of web development technologies and empower you in your journey towards building exceptional websites.""")
-     
-     with st.expander("The Team"):
-        st.image('team.jpg', caption='The researchers')
-     
+
 
      with st.expander("Acknowledgement"):
       st.markdown("""
         We would like to extend our gratitude to the team at Programiz for providing their exceptional online compiler as part of our SEO analyzer system's Practice menu. Their comprehensive platform offers valuable tools and resources for coding practice, enabling users to enhance their programming skills conveniently. We appreciate Programiz's contribution to our system, which enriches the learning experience for our users and empowers them in their journey of mastering programming concepts.
          """)
+         
+     with st.expander("The Team"):
+        st.image('team.jpg', caption='The researchers')
+     
