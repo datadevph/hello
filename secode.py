@@ -1261,7 +1261,7 @@ elif selected == "Practice":
 
 elif selected == "About SECODE":
      st.markdown("""
-         SECODE is a comprehensive SEO analyzer system designed to analyze the programming languages utilized in website development, along with other technologies such as HTML and CSS. Our system offers detailed insights into the underlying technologies powering websites, aiding users in understanding the technical aspects of web development.
+         **SECODE** is a comprehensive SEO analyzer system designed to analyze the programming languages utilized in website development, along with other technologies such as HTML and CSS. Our system offers detailed insights into the underlying technologies powering websites, aiding users in understanding the technical aspects of web development.
 
         SECODE also contains content to assist users in their web development learning journey. With SECODE, users gain access to resources and information that support their exploration and mastery of web development technologies.
 
