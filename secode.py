@@ -12,7 +12,7 @@ nltk.download('punkt')
 
 
 st.set_page_config(
-    page_title="SECODE",
+    page_title="SEO-Probe",
     layout="wide",
     page_icon="📊",
 )
@@ -21,9 +21,9 @@ st.set_page_config(
 # Define the title with HTML formatting to highlight "SEO" with styles
 title_html = """
     <span style="font-weight: bold; font-size: 3em; color: #4CAF50;">S</span>
-    <span style="font-weight: bold; font-size: 3em; color: #FF9800;">E</span><span style="font-size: 3em;">C</span>
-    <span style="font-weight: bold; font-size: 3em; color: #009688;">O</span><span style="font-size: 3em;">D</span>
-    <span style="font-size: 3em;">E</span> <span style="font-size: 1.5em;"><Analyze, Learn & Code/></span>
+    <span style="font-weight: bold; font-size: 3em; color: #FF9800;">E</span><span style="font-size: 3em;">O-</span>
+    <span style="font-weight: bold; font-size: 3em; color: #009688;">P</span><span style="font-size: 3em;">r</span>
+    <span style="font-size: 3em;">obe</span> <span style="font-size: 1.5em;"><Analyze, Learn & Code/></span>
 """
 
 # Display the title using Markdown
@@ -64,7 +64,7 @@ else:
 # Menu
 selected = option_menu(
     menu_title=None,
-    options=["Technology", "Analysis", "Learn", "Practice", "About SECODE"],
+    options=["Technology", "Analysis", "Learn", "Practice", "About SEO-Probe"],
     icons=["code-slash", "bar-chart", "lightbulb", "braces", "terminal"],
     menu_icon="cast",
     default_index=0,
@@ -1259,13 +1259,13 @@ elif selected == "Practice":
         - **Channel Link:** [SuperSimpleDev](https://www.youtube.com/@SuperSimpleDev)
         """)
 
-elif selected == "About SECODE":
+elif selected == "About SEO-Probe":
      st.markdown("""
-         **SECODE** is a comprehensive SEO analyzer system designed to analyze the programming languages utilized in website development, along with other technologies such as HTML and CSS. Our system offers detailed insights into the underlying technologies powering websites, aiding users in understanding the technical aspects of web development.
+         **SEO-Probe** is a comprehensive SEO analyzer system designed to analyze the programming languages utilized in website development, along with other technologies such as HTML and CSS. Our system offers detailed insights into the underlying technologies powering websites, aiding users in understanding the technical aspects of web development.
 
-        SECODE also contains content to assist users in their web development learning journey. With SECODE, users gain access to resources and information that support their exploration and mastery of web development technologies.
+        SEO-Probe also contains content to assist users in their web development learning journey. With SEO-Probe, users gain access to resources and information that support their exploration and mastery of web development technologies.
 
-        At SECODE, we are committed to providing valuable insights and resources to enhance your understanding of web development technologies and empower you in your journey towards building exceptional websites.""")
+        At SEO-Probe, we are committed to providing valuable insights and resources to enhance your understanding of web development technologies and empower you in your journey towards building exceptional websites.""")
 
 
      with st.expander("Acknowledgement"):
