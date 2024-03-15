@@ -74,34 +74,17 @@ selected = option_menu(
 # Display selected tab content
 if selected == "Technology":
     if html_code is not None:
-        # List technologies from available code
-        technologies = ["HTML", "CSS", "Javascript"]
-        # Identify available technologies from code
-        available_technologies = [tech for tech in technologies if tech.lower() in (html_code or "").lower()]
+        with st.expander("HTML Structure"):
+            if html_code.strip():  # Check if HTML code is not empty
+                st.code(html_code, language='html')
 
-        # Display tabs only for available technologies with non-empty content
-        if available_technologies:
-            tab_labels = []
-            tab_contents = []
-            if "HTML" in available_technologies and html_code:
-                tab_labels.append("HTML")
-                tab_contents.append(html_code)
-            if "CSS" in available_technologies and css_code:
-                tab_labels.append("CSS")
-                tab_contents.append(css_code)
-            if "Javascript" in available_technologies and js_code:
-                tab_labels.append("Javascript")
-                tab_contents.append(js_code)
-            
-            if tab_labels:  # Check if there are any tabs to display
-                selected_tab = st.tabs(tab_labels)
-                for label, content in zip(tab_labels, tab_contents):
-                    with selected_tab[tab_labels.index(label)]:
-                        st.code(content, language=label.lower())
-            else:
-                st.warning("This website doesn't contain any of the analyzed technologies.")
-        else:
-            st.warning("This website doesn't contain any of the analyzed technologies.")
+        with st.expander("CSS Styles"):
+            if css_code.strip():  # Check if CSS code is not empty
+                st.code(css_code, language='css')
+
+        with st.expander("Javascript Code"):
+            if js_code.strip():  # Check if JavaScript code is not empty
+                st.code(js_code, language='javascript')
     else:
         st.warning("You are in Technology menu, Provide domain first and then click Analyze button to fetch the content.")
 
