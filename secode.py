@@ -1257,5 +1257,5 @@ elif selected == "About SEO-Probe":
          """)
          
      with st.expander("The Team"):
-        st.image('team.jpg', caption='The researchers')
+        st.image('thesis-team.jpg', caption='The researchers')
      
